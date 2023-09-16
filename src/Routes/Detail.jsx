@@ -1,17 +1,38 @@
-import React from 'react'
-
-
-//Este componente debera ser estilado como "dark" o "light" dependiendo del theme del Context
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useOdontologoStates } from '../Components/utils/global.context'
 
 const Detail = () => {
  
-  // Consumiendo el parametro dinamico de la URL deberan hacer un fetch a un user en especifico
-
+  const {state, dispatch} = useOdontologoStates()
+  const [loading, setLoading] = useState(true)
+  const {id} = useParams()
+  const {name, email, phone, website} = state.odontologo
+  const url = `https://jsonplaceholder.typicode.com/users/${id}`
+  useEffect(() => {
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      dispatch({type: 'GET_ODONTOLOGO', payload: data})
+      setLoading(false)
+    })
+  }, [])
   return (
     <>
+    <main className={state.theme ? '' : "dark"}>
       <h1>Detail Dentist id </h1>
-      {/* aqui deberan renderizar la informacion en detalle de un user en especifico */}
-      {/* Deberan mostrar el name - email - phone - website por cada user en especifico */}
+      {loading ? 'Cargando...' :
+      <>
+      <p>{name}</p>
+      <br />
+      <p>{email}</p>
+      <br />
+      <p>{phone}</p>
+      <br />
+      <p>{website}</p>
+      </>
+    }
+    </main>
     </>
   )
 }

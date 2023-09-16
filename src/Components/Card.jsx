@@ -1,19 +1,23 @@
 import React from "react";
+import { useOdontologoStates } from '../Components/utils/global.context'
+import { Link } from "react-router-dom";
 
-
-const Card = ({ name, username, id }) => {
-
+const Card = ({odontologo, theme}) => {
+  const {dispatch} = useOdontologoStates();
+  const { name, username, id } = odontologo;
   const addFav = ()=>{
-    // Aqui iria la logica para agregar la Card en el localStorage
+    dispatch({type:'ADD_FAV', payload: odontologo})
   }
 
   return (
-    <div className="card">
-        {/* En cada card deberan mostrar en name - username y el id */}
-
-        {/* No debes olvidar que la Card a su vez servira como Link hacia la pagina de detalle */}
-
-        {/* Ademas deberan integrar la logica para guardar cada Card en el localStorage */}
+    <div className={`card ${theme ? '' : "dark"}`} >
+      <Link to={'/detail/' + id}>    
+        <p>{name}</p>
+        <br/>
+        <p>{username}</p>
+        <br/>
+        <p>{id}</p>
+      </Link>
         <button onClick={addFav} className="favButton">Add fav</button>
     </div>
   );

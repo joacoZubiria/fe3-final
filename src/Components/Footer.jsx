@@ -1,10 +1,12 @@
 import React from 'react'
+import { useOdontologoStates } from './utils/global.context'
 
 const Footer = () => {
+  const {state} = useOdontologoStates()
   return (
-    <footer>
+    <footer className={state.theme ? '' : "dark"}>
         <p>Powered by</p>
-        <img src="./img/DH.png" alt='DH-logo' />
+        <img src="/images/DH.png" alt='DH-logo'/>
     </footer>
   )
 }
